@@ -1,7 +1,6 @@
-const Fastify = require('fastify')({ logger: true })
+const fastify = require('fastify')({ logger: true })
 require('dotenv').config()
 
-const fastify = Fastify
 const PORT = process.env.PORT || 3000
 
 const products = [{ id: 1, name: 'Pen', category: 'office supplies', price: 2 }]
