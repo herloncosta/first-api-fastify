@@ -1,28 +1,23 @@
+const { productRoutes } = require('./routes/product.route')
 const fastify = require('fastify')({ logger: true })
 require('dotenv').config()
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
-const products = [{ id: 1, name: 'Pen', category: 'office supplies', price: 2 }]
-
-fastify.get('/api/product', (request, reply) => {
-    reply.send({ products })
+// ROUTES
+productRoutes.forEach((route) => {
+    fastify.route(route)
 })
 
-fastify.get('/api/product/:id', (request, reply) => {
-    const id = parseInt(request.params.id)
-    const product = products.find((product) => product.id === id)
-    reply.send({ product })
-})
-
-fastify.post('/api/product', (request, reply) => {
-    const { id, name, category, price } = request.body
-    products.push({ id, name, category, price })
-    reply.send({ 201: 'created' })
-})
-
-async function init() {
-    await fastify.listen({ port: PORT })
+// SERVER
+function init() {
+    fastify.listen({ port: PORT, host: '127.0.0.1' }, (err, addr) => {
+        if (err) {
+            fastify.log.error(err)
+            process.exit(1)
+        }
+        console.log(`Service running on ${addr}`)
+    })
 }
 
 init()
