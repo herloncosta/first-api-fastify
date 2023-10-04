@@ -13,8 +13,23 @@ POST http://127.0.0.1:3000/api/products
 Content-Type: application/json
 
 {
-    "id": "3",
+    "id": "2",
     "name": "Pencil",
     "category": "office supplies",
     "price": 1.5
 }
+
+### UPDATE BY ID
+PUT http://127.0.0.1:3000/api/products/2
+Content-Type: application/json
+
+{
+    "name": "updated",
+    "category": "updated",
+    "price": 3.2
+}
+
+
+### REMOVE BY ID
+DELETE http://127.0.0.1:3000/api/products/1
+Content-Type: application/json

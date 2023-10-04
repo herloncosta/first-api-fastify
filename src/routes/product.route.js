@@ -1,4 +1,10 @@
-const products = [{ id: 1, name: 'Pen', category: 'office supplies', price: 2 }]
+const {
+    findAll,
+    findById,
+    insert,
+    updateById,
+    deleteById,
+} = require('../controllers/product.controller')
 
 const getAll = {
     method: 'GET',
@@ -7,9 +13,7 @@ const getAll = {
     preHandler: (request, reply, done) => {
         done()
     },
-    handler: (request, reply) => {
-        reply.send({ products })
-    },
+    handler: findAll,
 }
 
 const getById = {
@@ -23,11 +27,7 @@ const getById = {
     preHandler: (request, reply, done) => {
         done()
     },
-    handler: (request, reply) => {
-        const id = request.params.id
-        const product = products.find((product) => product.id === id)
-        reply.send({ product })
-    },
+    handler: findById,
 }
 
 const create = {
@@ -52,13 +52,50 @@ const create = {
     preHandler: (request, reply, done) => {
         done()
     },
-    handler: (request, reply) => {
-        const { id, name, category, price } = request.body
-        products.push({ id, name, category, price })
-        reply.send({ success: `product created with id ${id}` })
-    },
+    handler: insert,
 }
 
-const productRoutes = [getAll, getById, create]
+const update = {
+    method: 'PUT',
+    url: '/api/products/:id',
+    schema: {
+        params: {
+            id: { type: 'number' },
+        },
+        body: {
+            name: { type: 'string' },
+            category: { type: 'string' },
+            price: { type: 'number' },
+        },
+        response: {
+            201: {
+                type: 'object',
+                properties: {
+                    success: { type: 'string' },
+                },
+            },
+        },
+    },
+    preHandler: (request, reply, done) => {
+        done()
+    },
+    handler: updateById,
+}
+
+const remove = {
+    method: 'DELETE',
+    url: '/api/products/:id',
+    schema: {
+        params: {
+            id: { type: 'number' },
+        },
+    },
+    preHandler: (request, reply, done) => {
+        done()
+    },
+    handler: deleteById,
+}
+
+const productRoutes = [getAll, getById, create, update, remove]
 
 module.exports = { productRoutes }
