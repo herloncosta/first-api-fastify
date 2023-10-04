@@ -1,51 +1,77 @@
-const products = [{ id: 1, name: 'Pen', category: 'office supplies', price: 2 }]
+const Product = require('../models/product.model')
 
-function findAllProducts(request, reply) {
-    return reply.send({ products })
+async function findAllProducts(request, reply) {
+    try {
+        const products = await Product.find({})
+        return reply.send({ products })
+    } catch (error) {
+        return reply.status(500).send({ error: 'Collection not found' })
+    }
 }
 
-function findProductById(request, reply) {
+async function findProductById(request, reply) {
     const id = request.params.id
-    const product = products.find((product) => product.id === id)
-    if (product) {
-        return reply.status(200).send({ product })
+    if (id) {
+        try {
+            const product = await Product.findById(id)
+            if (product) {
+                return reply.status(200).send({ product })
+            }
+        } catch (error) {
+            return reply.status(404).send({ error: 'Product not found' })
+        }
     }
-    return reply.status(404).send({ error: 'Product not found' })
 }
 
 function createProduct(request, reply) {
-    const { id, name, category, price } = request.body
-    if (id && name && category && price) {
-        products.push({ id, name, category, price })
-        return reply
-            .status(201)
-            .send({ success: `product created with id ${id}` })
+    const { name, category, price } = request.body
+    if (name && category && price) {
+        try {
+            const product = new Product({ name, category, price })
+            product.save()
+            return reply
+                .status(201)
+                .send({ success: `product created with id ${product._id}` })
+        } catch (error) {
+            return reply
+                .status(400)
+                .send({ error: 'Todos os itens são obrigatórios' })
+        }
     }
-    return reply.status(400).send({ error: 'Todos os itens são obrigatórios' })
 }
 
-function updateProductById(request, reply) {
+async function updateProductById(request, reply) {
     const id = request.params.id
     const { name, category, price } = request.body
-    const updated = { id, name, category, price }
-    const productIndex = products.findIndex((product) => product.id === id)
-    if (productIndex !== -1) {
-        products.splice(productIndex, 1, updated)
-        return reply
-            .status(201)
-            .send({ success: `product with id ${id} is updated` })
+    if (id && name && category && price) {
+        try {
+            const product = await Product.findByIdAndUpdate(
+                id,
+                { name, category, price },
+                { new: true }
+            )
+            return reply
+                .status(201)
+                .send({ success: `product with id ${product._id} is updated` })
+        } catch (error) {
+            return reply.status(404).send({ error: `${name} not found!` })
+        }
     }
-    return reply.status(404).send({ error: 'Product not found' })
 }
 
-function deleteProductById(request, reply) {
+async function deleteProductById(request, reply) {
     const id = request.params.id
-    const productIndex = products.findIndex((product) => product.id === id)
-    if (productIndex !== -1) {
-        products.splice(productIndex, 1)
-        return reply.status(204).send({ success: 'Product deleted' })
+    if (id) {
+        try {
+            const product = await Product.findByIdAndDelete(id)
+            return reply
+                .status(204)
+                .send({ success: `${product.name} has been deleted.` })
+        } catch (error) {
+            console.error(error)
+            return reply.status(404).send({ error: 'Product not found.' })
+        }
     }
-    return reply.status(404).send({ error: 'Product not found ' })
 }
 
 module.exports = {
