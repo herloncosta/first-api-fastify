@@ -1,10 +1,10 @@
 const products = [{ id: 1, name: 'Pen', category: 'office supplies', price: 2 }]
 
-function findAll(request, reply) {
+function findAllProducts(request, reply) {
     return reply.send({ products })
 }
 
-function findById(request, reply) {
+function findProductById(request, reply) {
     const id = request.params.id
     const product = products.find((product) => product.id === id)
     if (product) {
@@ -13,7 +13,7 @@ function findById(request, reply) {
     return reply.status(404).send({ error: 'Product not found' })
 }
 
-function insert(request, reply) {
+function createProduct(request, reply) {
     const { id, name, category, price } = request.body
     if (id && name && category && price) {
         products.push({ id, name, category, price })
@@ -24,7 +24,7 @@ function insert(request, reply) {
     return reply.status(400).send({ error: 'Todos os itens são obrigatórios' })
 }
 
-function updateById(request, reply) {
+function updateProductById(request, reply) {
     const id = request.params.id
     const { name, category, price } = request.body
     const updated = { id, name, category, price }
@@ -38,7 +38,7 @@ function updateById(request, reply) {
     return reply.status(404).send({ error: 'Product not found' })
 }
 
-function deleteById(request, reply) {
+function deleteProductById(request, reply) {
     const id = request.params.id
     const productIndex = products.findIndex((product) => product.id === id)
     if (productIndex !== -1) {
@@ -48,4 +48,10 @@ function deleteById(request, reply) {
     return reply.status(404).send({ error: 'Product not found ' })
 }
 
-module.exports = { findAll, findById, insert, updateById, deleteById }
+module.exports = {
+    findAllProducts,
+    findProductById,
+    createProduct,
+    updateProductById,
+    deleteProductById,
+}
