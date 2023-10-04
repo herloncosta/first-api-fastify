@@ -14,9 +14,7 @@ async function findProductById(request, reply) {
     if (id) {
         try {
             const product = await Product.findById(id)
-            if (product) {
-                return reply.status(200).send({ product })
-            }
+            return reply.status(200).send({ product })
         } catch (error) {
             return reply.status(404).send({ error: 'Product not found' })
         }
