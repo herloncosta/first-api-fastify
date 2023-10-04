@@ -32,6 +32,7 @@ function updateById(request, reply) {
     if (productIndex !== -1) {
         products.splice(productIndex, 1, updated)
         reply.status(201).send({ success: `product with id ${id} is updated` })
+        return
     }
     reply.status(404).send({ error: 'Product not found' })
 }
