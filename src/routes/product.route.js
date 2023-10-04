@@ -21,7 +21,7 @@ const getById = {
     url: '/api/products/:id',
     schema: {
         params: {
-            id: { type: 'number' },
+            id: { type: 'string' },
         },
     },
     preHandler: (request, reply, done) => {
@@ -35,7 +35,6 @@ const create = {
     url: '/api/products',
     schema: {
         body: {
-            id: { type: 'number' },
             name: { type: 'string' },
             category: { type: 'string' },
             price: { type: 'number' },
@@ -60,7 +59,7 @@ const update = {
     url: '/api/products/:id',
     schema: {
         params: {
-            id: { type: 'number' },
+            id: { type: 'string' },
         },
         body: {
             name: { type: 'string' },
@@ -87,7 +86,7 @@ const remove = {
     url: '/api/products/:id',
     schema: {
         params: {
-            id: { type: 'number' },
+            id: { type: 'string' },
         },
     },
     preHandler: (request, reply, done) => {
