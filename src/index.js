@@ -1,8 +1,23 @@
+const mongoose = require('mongoose')
 const { productRoutes } = require('./routes/product.route')
 const fastify = require('fastify')({ logger: true })
 require('dotenv').config()
 
 const PORT = process.env.PORT || 3001
+const URI = process.env.URI
+
+// CONNECT DATABASE
+async function connect() {
+    try {
+        await mongoose.connect(URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        })
+        console.log('Database connected!')
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 // ROUTES
 productRoutes.forEach((route) => {
@@ -20,4 +35,5 @@ function init() {
     })
 }
 
+connect()
 init()
