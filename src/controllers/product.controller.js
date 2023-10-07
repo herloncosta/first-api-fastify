@@ -11,13 +11,24 @@ async function findAllProducts(request, reply) {
 
 async function findProductById(request, reply) {
     const id = request.params.id
-    if (id) {
-        try {
-            const product = await Product.findById(id)
-            return reply.status(200).send({ product })
-        } catch (error) {
-            return reply.status(404).send({ error: 'Product not found' })
-        }
+    // if (id) {
+    //     try {
+    //         const product = await Product.findById(id)
+    //         if (product === null) {
+    //             throw new Error({ error: 'Product not found' })
+    //         }
+    //         return reply.status(200).send({ product })
+    //     } catch (error) {
+    //         return reply.status(404).send({ error: 'Product not found' })
+    //     }
+    // }
+
+    try {
+        const product = id && (await Product.findById(id))
+        if (product) return reply.status(200).send({ product })
+        throw new Error({ error: 'Product not found' })
+    } catch (error) {
+        return reply.status(404).send({ error: 'Product not found' })
     }
 }
 
