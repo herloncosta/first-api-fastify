@@ -35,9 +35,7 @@ class ProductController {
 
     static async deleteProductById(request, reply) {
         const result = await ProductService.deleteProductById(request)
-        if (result.success) {
-            return { success: 'Product deleted' }
-        }
+        if (result.success) return { success: 'Product deleted' }
         return reply.status(404).send({ error: result.error })
     }
 }
