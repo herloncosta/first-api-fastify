@@ -4,7 +4,7 @@ Content-Type: application/json
 
 
 ### GET PRODUCT BY ID
-GET http://127.0.0.1:3000/api/products/1
+GET http://127.0.0.1:3000/api/products/652203c1ff2de083265c68c4
 Content-Type: application/json
 
 
@@ -13,23 +13,22 @@ POST http://127.0.0.1:3000/api/products
 Content-Type: application/json
 
 {
-    "id": "2",
-    "name": "Pencil",
-    "category": "office supplies",
-    "price": 1.5
+    "name": "Produto Novo Refactoring",
+    "category": "desconhecido",
+    "price": 300
 }
 
 ### UPDATE BY ID
-PUT http://127.0.0.1:3000/api/products/2
+PUT http://127.0.0.1:3000/api/products/651dec152893c9ab940da75a
 Content-Type: application/json
 
 {
-    "name": "updated",
-    "category": "updated",
+    "name": "Classe",
+    "category": "updated 2",
     "price": 3.2
 }
 
 
 ### REMOVE BY ID
-DELETE http://127.0.0.1:3000/api/products/1
+DELETE http://127.0.0.1:3000/api/products/651dec152893c9ab940da75a
 Content-Type: application/json

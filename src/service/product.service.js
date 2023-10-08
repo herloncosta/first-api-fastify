@@ -11,9 +11,10 @@ class ProductService {
         }
     }
 
-    static async getProductBy(id) {
+    static async getProductBy({ params }) {
+        const { id } = params
         try {
-            const foundProduct = await Product.findById(id)
+            const foundProduct = id && (await Product.findById(id))
             if (foundProduct) return { success: true, foundProduct }
             throw new Error('Product not found')
         } catch (error) {
@@ -43,7 +44,8 @@ class ProductService {
         const { name, category, price } = body
         const newProduct = { name, category, price }
         try {
-            const product = await Product.findByIdAndUpdate(id, newProduct)
+            const product =
+                id && (await Product.findByIdAndUpdate(id, newProduct))
             if (product) return { success: true }
             throw new Error('Product not found')
         } catch (error) {
@@ -55,7 +57,7 @@ class ProductService {
     static async deleteProductById({ params }) {
         const { id } = params
         try {
-            const product = await Product.findByIdAndDelete(id)
+            const product = id && (await Product.findByIdAndDelete(id))
             if (product) return { success: true }
             throw new Error('Product not found')
         } catch (error) {

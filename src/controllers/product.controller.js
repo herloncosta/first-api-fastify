@@ -11,8 +11,7 @@ class ProductController {
     }
 
     static async findProductById(request, reply) {
-        const { id } = request.params
-        const result = await ProductService.getProductBy(id)
+        const result = await ProductService.getProductBy(request)
         if (result.success) {
             return reply.status(200).send(result.foundProduct)
         }
