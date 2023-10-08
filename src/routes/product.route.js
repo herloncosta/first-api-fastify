@@ -1,10 +1,4 @@
-const {
-    findAllProducts,
-    findProductById,
-    createProduct,
-    updateProductById,
-    deleteProductById,
-} = require('../controllers/product.controller')
+const ProductController = require('../controllers/product.controller')
 
 const getAll = {
     method: 'GET',
@@ -13,7 +7,7 @@ const getAll = {
     preHandler: (request, reply, done) => {
         done()
     },
-    handler: findAllProducts,
+    handler: ProductController.findAllProducts,
 }
 
 const getById = {
@@ -27,7 +21,7 @@ const getById = {
     preHandler: (request, reply, done) => {
         done()
     },
-    handler: findProductById,
+    handler: ProductController.findProductById,
 }
 
 const create = {
@@ -51,7 +45,7 @@ const create = {
     preHandler: (request, reply, done) => {
         done()
     },
-    handler: createProduct,
+    handler: ProductController.createProduct,
 }
 
 const update = {
@@ -78,7 +72,7 @@ const update = {
     preHandler: (request, reply, done) => {
         done()
     },
-    handler: updateProductById,
+    handler: ProductController.updateProductById,
 }
 
 const remove = {
@@ -92,7 +86,7 @@ const remove = {
     preHandler: (request, reply, done) => {
         done()
     },
-    handler: deleteProductById,
+    handler: ProductController.deleteProductById,
 }
 
 const productRoutes = [getAll, getById, create, update, remove]

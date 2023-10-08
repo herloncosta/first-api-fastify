@@ -15,13 +15,15 @@ class ProductService {
         try {
             const foundProduct = await Product.findById(id)
             if (foundProduct) return { success: true, foundProduct }
+            throw new Error('Product not found')
         } catch (error) {
-            return { success: false, error: 'Product not found' }
+            console.error(error)
+            return { success: false, error: error.message }
         }
     }
 
-    static createProduct(request) {
-        const { name, category, price } = request.body
+    static createProduct({ body }) {
+        const { name, category, price } = body
         if (!name || !category || !price) {
             const messageError = 'All parameters are mandatory'
             return { success: false, error: messageError }
@@ -36,12 +38,24 @@ class ProductService {
         }
     }
 
-    static async updateProduct(request) {
-        const { id } = request.params
-        const { name, category, price } = request.body
+    static async updateProductById({ params, body }) {
+        const { id } = params
+        const { name, category, price } = body
         const newProduct = { name, category, price }
         try {
             const product = await Product.findByIdAndUpdate(id, newProduct)
+            if (product) return { success: true }
+            throw new Error('Product not found')
+        } catch (error) {
+            console.error(error)
+            return { success: false, error: error.message }
+        }
+    }
+
+    static async deleteProductById({ params }) {
+        const { id } = params
+        try {
+            const product = await Product.findByIdAndDelete(id)
             if (product) return { success: true }
             throw new Error('Product not found')
         } catch (error) {
