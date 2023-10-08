@@ -3,18 +3,14 @@ const ProductService = require('../service/product.service')
 class ProductController {
     static async findAllProducts(request, reply) {
         const result = await ProductService.getProducts()
-        if (result.success) {
-            return reply.status(200).send(result.foundProducts)
-        }
+        if (result.success) return reply.status(200).send(result.foundProducts)
         console.error(`Error fetching products: ${result.error}`)
         return reply.status(404).send({ error: result.error })
     }
 
     static async findProductById(request, reply) {
         const result = await ProductService.getProductBy(request)
-        if (result.success) {
-            return reply.status(200).send(result.foundProduct)
-        }
+        if (result.success) return reply.status(200).send(result.foundProduct)
         return reply.status(404).send({ error: result.error })
     }
 
