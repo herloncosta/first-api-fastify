@@ -35,6 +35,20 @@ class ProductService {
             return { success: false, error: messageError }
         }
     }
+
+    static async updateProduct(request) {
+        const { id } = request.params
+        const { name, category, price } = request.body
+        const newProduct = { name, category, price }
+        try {
+            const product = await Product.findByIdAndUpdate(id, newProduct)
+            if (product) return { success: true }
+            throw new Error('Product not found')
+        } catch (error) {
+            console.error(error)
+            return { success: false, error: error.message }
+        }
+    }
 }
 
 module.exports = ProductService

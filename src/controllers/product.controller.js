@@ -22,29 +22,16 @@ async function findProductById(request, reply) {
 function createProduct(request, reply) {
     const result = ProductService.createProduct(request)
     if (result.success) {
-        const successMessage = `product created with ID ${result.product._id}`
+        const successMessage = 'Product created'
         return reply.status(201).send({ success: successMessage })
     }
     return reply.status(400).send({ error: result.error })
 }
 
 async function updateProductById(request, reply) {
-    const { id } = request.params
-    const { name, category, price } = request.body
-    if (id && name && category && price) {
-        try {
-            const product = await Product.findByIdAndUpdate(
-                id,
-                { name, category, price },
-                { new: true }
-            )
-            return reply
-                .status(201)
-                .send({ success: `product with id ${product._id} is updated` })
-        } catch (error) {
-            return reply.status(404).send({ error: `${name} not found` })
-        }
-    }
+    const result = await ProductService.updateProduct(request)
+    if (result.success) return { success: 'Product updated' }
+    return reply.status(404).send({ error: result.error })
 }
 
 async function deleteProductById(request, reply) {
