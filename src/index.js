@@ -25,7 +25,8 @@ productRoutes.forEach((route) => {
 })
 
 // SERVER
-function init() {
+async function init() {
+    await connect()
     fastify.listen({ port: PORT, host: '127.0.0.1' }, (err, addr) => {
         if (err) {
             fastify.log.error(err)
@@ -35,5 +36,4 @@ function init() {
     })
 }
 
-connect()
 init()
