@@ -1,5 +1,21 @@
 const ProductController = require('../controllers/product.controller')
 
+const schema = {
+    body: {
+        name: { type: 'string' },
+        category: { type: 'string' },
+        price: { type: 'number' },
+    },
+    response: {
+        201: {
+            type: 'object',
+            properties: {
+                success: { type: 'boolean' },
+            },
+        },
+    },
+}
+
 const getAll = {
     method: 'GET',
     url: '/api/products',
@@ -27,21 +43,7 @@ const getById = {
 const create = {
     method: 'POST',
     url: '/api/products',
-    schema: {
-        body: {
-            name: { type: 'string' },
-            category: { type: 'string' },
-            price: { type: 'number' },
-        },
-        response: {
-            201: {
-                type: 'object',
-                properties: {
-                    success: { type: 'string' },
-                },
-            },
-        },
-    },
+    schema: schema,
     preHandler: (request, reply, done) => {
         done()
     },
@@ -55,19 +57,8 @@ const update = {
         params: {
             id: { type: 'string' },
         },
-        body: {
-            name: { type: 'string' },
-            category: { type: 'string' },
-            price: { type: 'number' },
-        },
-        response: {
-            201: {
-                type: 'object',
-                properties: {
-                    success: { type: 'string' },
-                },
-            },
-        },
+        body: schema.body,
+        response: schema.response,
     },
     preHandler: (request, reply, done) => {
         done()
